@@ -9,7 +9,7 @@ function openSettings(file = ':memory:') {
 }
 
 function saveSetting(db, key, value) {
-  db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)').run(key, JSON.stringify(value));
+  db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value').run(key, JSON.stringify(value));
 }
 
 module.exports = { openSettings, saveSetting };

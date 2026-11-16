@@ -1,0 +1,16 @@
+{
+  "name": "fixture-jest-native",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A BJIT test fixture for AMS: settings kept in SQLite through a native module.",
+  "main": "src/settings.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "better-sqlite3": "12.11.1"
+  },
+  "devDependencies": {
+    "jest": "30.5.2"
+  }
+}

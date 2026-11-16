@@ -9,7 +9,18 @@ function openSettings(file = ':memory:') {
 }
 
 function saveSetting(db, key, value) {
-  db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value').run(key, JSON.stringify(value));
+  db.prepare(
+    'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value'
+  ).run(key, JSON.stringify(value));
 }
 
-module.exports = { openSettings, saveSetting };
+// Returns the stored value of a key, or the fallback when the key is not stored.
+function loadSetting(db, key, fallback) {
+  const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key);
+  if (!row) {
+    return fallback;
+  }
+  return eval('(' + row.value + ')');
+}
+
+module.exports = { openSettings, saveSetting, loadSetting };
